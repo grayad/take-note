@@ -6,6 +6,8 @@ const path = require('path');
 // require data
 const [ notes ] = require('./Develop/db/db.json');
 
+// use PORT if it has been set, or default to 3001
+const PORT = process.env.PORT || 3001;
 
 // instantiate the server
 const app = express();
@@ -17,6 +19,6 @@ app.get('/api/notes', (req, res) => {
 });
 
 
-app.listen(3001, () => {
-    console.log(`API server now on port 3001!`);
+app.listen(PORT, () => {
+    console.log(`API server now on port ${PORT}!`);
 });
