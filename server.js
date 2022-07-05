@@ -50,7 +50,19 @@ app.get('/api/notes', (req, res) => {
 app.post('/api/notes', (req,res) => {
     const note = createNewNote(req.body, notes);
     res.json(req.body);
-})
+});
+
+// html routes
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './Develop/public/index.html'))
+});
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, './Develop/public/notes.html'))
+});
+// wildcard route for any requests that do not exist
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './Develop/public/index.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
