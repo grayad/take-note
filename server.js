@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // require data
-const [ notes ] = require('./Develop/db/db.json');
+const  notes  = require('./Develop/db/db.json');
 
 // use PORT if it has been set, or default to 3001
 const PORT = process.env.PORT || 3000;
@@ -18,26 +18,29 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // return ID of specific note
-// function findById(id, notesArray) {
-//     const result = notesArray.filter(note => note.id === id)[0];
-//     return result;
-// }
+function findById(id, notesArray) {
+    const result = notesArray.filter(note => note.id === id)[0];
+    return result;
+}
 
-function createNewNote(body, notes) {
+function createNewNote(body, notesArray) {
     const note = body;
     // save new data in local server.js copy of animal data
-    [notes].push(note);
+    notesArray.push(note);
 
     // write new data to db.json
     fs.writeFileSync(
         path.join(__dirname, './Develop/db/db.json'),
         // convert JS array data to JSON, do not change current data, and leave white space for readability
-        JSON.stringify([notes], null, 2)
+        JSON.stringify(notesArray, null, 2)
     );
+
+    // return finished code to post route for response
+    return note;
 }
 // GET route
 app.get('/api/notes', (req, res) => {
-    res.json(notes);
+    res.json(  notes );
 });
 
 // GET by ID
@@ -48,7 +51,11 @@ app.get('/api/notes', (req, res) => {
 
 // POST new notes
 app.post('/api/notes', (req,res) => {
-    const note = createNewNote(req.body, notes);
+    // set id based on what the next index of the array will be
+    req.body.id = notes.length.toString();
+
+    // add animal to json file and animals array with this function
+    const note = createNewNote(req.body,  notes);
     res.json(req.body);
 });
 
