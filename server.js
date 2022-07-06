@@ -16,12 +16,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
-
-// return ID of specific note
-function findById(id, notesArray) {
-    const result = notesArray.filter(note => note.id === id)[0];
-    return result;
-}
+// make asset files readily available, aka static resources
+app.use(express.static('./Develop/public'));
 
 function createNewNote(body, notesArray) {
     const note = body;
@@ -37,17 +33,12 @@ function createNewNote(body, notesArray) {
 
     // return finished code to post route for response
     return note;
-}
+};
+
 // GET route
 app.get('/api/notes', (req, res) => {
     res.json(  notes );
 });
-
-// GET by ID
-// app.get('/api/notes/:id', (req, res) => {
-//     const result = findById(req.params.id, notes);
-//       res.json(result);
-// });
 
 // POST new notes
 app.post('/api/notes', (req,res) => {
