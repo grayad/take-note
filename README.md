@@ -11,5 +11,6 @@ A website that allows the user to write and save notes, as well as access previo
 - CSS
 - JavaScript
 - Express.js
+
 ## Website
-https://grayad.github.io/take-note/
+https://take-note-7.herokuapp.com/
