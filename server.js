@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // require data
-const  notes  = require('./Develop/db/db.json');
+const  notes  = require('./api/db/db.json');
 
 // use PORT if it has been set, or default to 3001
 const PORT = process.env.PORT || 3000;
@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 // make asset files readily available, aka static resources
-app.use(express.static('./Develop/public'));
+app.use(express.static('./api/public'));
 
 function createNewNote(body, notesArray) {
     const note = body;
@@ -26,7 +26,7 @@ function createNewNote(body, notesArray) {
 
     // write new data to db.json
     fs.writeFileSync(
-        path.join(__dirname, './Develop/db/db.json'),
+        path.join(__dirname, './api/db/db.json'),
         // convert JS array data to JSON, do not change current data, and leave white space for readability
         JSON.stringify(notesArray, null, 2)
     );
@@ -52,14 +52,14 @@ app.post('/api/notes', (req,res) => {
 
 // html routes
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './Develop/public/index.html'))
+    res.sendFile(path.join(__dirname, './api/public/index.html'))
 });
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './Develop/public/notes.html'))
+    res.sendFile(path.join(__dirname, './api/public/notes.html'))
 });
 // wildcard route for any requests that do not exist
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './Develop/public/index.html'));
+    res.sendFile(path.join(__dirname, './api/public/index.html'));
 });
 
 app.listen(PORT, () => {
